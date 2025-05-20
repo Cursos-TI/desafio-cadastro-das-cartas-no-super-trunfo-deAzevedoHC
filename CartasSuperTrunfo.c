@@ -18,12 +18,18 @@ float PIBpercap(float a, float b){
     return a/b;
 }
 
+//função para calcular o Super Poder de uma carta (neste caso "e" deve ser subtraido pois representa a densidade populacional e quanto menor a densidade, maior o super poder)
+double superpoder(float a, float b, float c, float d, float e, float f) {
+    return a+b+c+d-e+f;
+}
+
 int main() {
     // Sugestão: Defina variáveis separadas para cada atributo da cidade.
     // Exemplos de atributos: código da cidade, nome, população, área, PIB, número de pontos turísticos.
     char estado1[15], estado2[15], codigo1[3], codigo2[3], cidade1[15], cidade2[15];
-    int populacao1, populacao2, pontosturisticos1, pontosturisticos2;
-    float area1, area2, PIB1, PIB2, densidadepop1, densidadepop2, PIBperc1, PIBperc2;
+    int pontosturisticos1, pontosturisticos2;
+    unsigned long int populacao1, populacao2; 
+    float area1, area2, PIB1, PIB2, densidadepop1, densidadepop2, PIBperc1, PIBperc2, superpoder1, superpoder2;
     // Cadastro das Cartas:
     // Sugestão: Utilize a função scanf para capturar as entradas do usuário para cada atributo.
     // Solicite ao usuário que insira as informações de cada cidade, como o código, nome, população, área, etc.
@@ -39,7 +45,7 @@ int main() {
         scanf("%s", cidade1);
 
         printf("Informe qual a população da cidade: \n");
-        scanf("%d", &populacao1);
+        scanf("%lu", &populacao1);
 
         printf("Informe a área da cidade (km²): \n");
         scanf("%f", &area1);
@@ -56,6 +62,9 @@ int main() {
         //chama a função PIBpercap e informa os valores para serem calculados, e então inserir o resultado na variável PIBperc1
         PIBperc1 = PIBpercap(PIB1,populacao1);
 
+        //chama a função superpoder e informa os valores para serem calculados( colocando a densidade populacional no local correto), e então inserir o resultado na variável superpoder1
+        superpoder1 = superpoder(populacao1,area1,PIB1,pontosturisticos1,densidadepop1,PIBperc1);
+
         printf("\n");
 
 // aqui termina o cadastro das informações da primeira carta
@@ -71,7 +80,7 @@ int main() {
         scanf("%s", cidade2);
 
         printf("Informe qual a população da cidade: \n");
-        scanf("%d", &populacao2);
+        scanf("%lu", &populacao2);
 
         printf("Informe a área da cidade (km²): \n");
         scanf("%f", &area2);
@@ -88,11 +97,60 @@ int main() {
         //chama a função PIBpercap e informa os valores para serem calculados, e então inserir o resultado na variável PIBperc2
         PIBperc2 = PIBpercap(PIB2,populacao2);
 
+        //chama a função superpoder e informa os valores para serem calculados( colocando a densidade populacional no local correto), e então inserir o resultado na variável superpoder2
+        superpoder2 = superpoder(populacao2,area2,PIB2,pontosturisticos2,densidadepop2,PIBperc2);
+
 
         printf("\n");
 // aqui termina o cadastro da segunda carta
-    
-    // Exibição dos Dados das Cartas:
+  
+// Comparando as cartas
+printf("Comparação de Cartas:\n");
+// População
+if (populacao1 > populacao2)
+    printf("População: Carta 1 venceu.\n");
+else
+    printf("População: Carta 2 venceu.\n");
+
+//Area
+if (area1 > area2)
+    printf("Área: Carta 1 venceu.\n");
+else
+    printf("Área: Carta 2 venceu.\n");
+
+//PIB
+if (PIB1 > PIB2)
+    printf("PIB: Carta 1 venceu.\n");
+else
+    printf("PIB: Carta 2 venceu.\n");
+
+//Pontos Turísticos
+if (pontosturisticos1 > pontosturisticos2)
+    printf("Pontos Turísticos: Carta 1 venceu.\n");
+else
+    printf("Pontos Turísticos: Carta 2 venceu.\n");
+
+//Densidade Populacional
+if (densidadepop1 < densidadepop2)
+    printf("Densidade Populacional: Carta 1 venceu.\n");
+else
+    printf("Densidade Populacional: Carta 2 venceu.\n");
+
+//PIB per capta
+if (PIBperc1 > PIBperc2)
+    printf("PIB per capta: Carta 1 venceu.\n");
+else
+    printf("PIB per capta: Carta 2 venceu.\n");
+
+//Super Poder
+if (superpoder1 > superpoder2)
+    printf("Super Poder: Carta 1 venceu.\n");
+else
+    printf("Super Poder: Carta 2 venceu.\n");
+
+   return 0;
+}
+ /*   // Exibição dos Dados das Cartas:
     // Sugestão: Utilize a função printf para exibir as informações das cartas cadastradas de forma clara e organizada.
     // Exiba os valores inseridos para cada atributo da cidade, um por linha.
 printf("Cartas cadastradas com sucesso! \n");
@@ -102,12 +160,13 @@ printf("Carta 1: \n");
     printf("Estado: %s \n", estado1);
     printf("Código: %s \n", codigo1);
     printf("Cidade: %s \n", cidade1);
-    printf("População: %d habitantes \n", populacao1);
+    printf("População: %lu habitantes \n", populacao1);
     printf("Área: %.2f km² \n", area1);
     printf("PIB: R$ %.2f bilhões de reais \n", PIB1);
     printf("Pontos turísticos: %d \n", pontosturisticos1);
     printf("Densidade populacional: %.2f hab/km² \n", densidadepop1);
     printf("PIB per Capta: %.2f reais\n", PIBperc1);
+    printf("Super Poder: %.2f \n", superpoder1);
     printf("\n");
 
 // Informações da segunda carta   
@@ -115,11 +174,13 @@ printf("Carta 1: \n");
     printf("Estado: %s \n", estado2);
     printf("Código: %s \n", codigo2);
     printf("Cidade: %s \n", cidade2);
-    printf("População: %d habitantes \n", populacao2);
+    printf("População: %lu habitantes \n", populacao2);
     printf("Área: %.2f km² \n", area2);
     printf("PIB: R$ %.2f bilhões de reais\n", PIB2);
     printf("Pontos turísticos: %d \n", pontosturisticos2);
     printf("Densidade populacional: %.2f hab/km²\n", densidadepop2);
     printf("PIB per Capta: %.2f reais\n", PIBperc2);
+    printf("Super Poder: %.2f \n", superpoder2);
     return 0;
 }
+*/
